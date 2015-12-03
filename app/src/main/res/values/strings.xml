@@ -3,4 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="btnManage">Add/Remove Verses</string>
+    <string name="btnQuiz">Quiz!</string>
+    <string name="txtInstructions">Add a scripture to your quiz list</string>
+    <string name="txtScripturesLabel">List of scriptures: </string>
 </resources>

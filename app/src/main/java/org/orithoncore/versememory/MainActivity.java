@@ -1,18 +1,29 @@
 package org.orithoncore.versememory;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-
+    Button btnManage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DataBaseBundler dbBundler = new DataBaseBundler();
         dbBundler.bundleDataBase(getPackageName(), getBaseContext(), "bibleDB");
+        btnManage = (Button) findViewById(R.id.btnManage);
+        btnManage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ManageVerses.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

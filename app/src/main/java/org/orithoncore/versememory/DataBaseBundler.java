@@ -24,11 +24,9 @@ public class DataBaseBundler extends AppCompatActivity {
             if (!f.exists()) {
                 // we have to bundle the database with app - first run!
                 Log.d("db", "Bundling database!");
-
                 // manually make the databases folder
                 File directory = new File("/data/data/" + getPackageName + "/databases");
                 directory.mkdir();
-
                 copyDB(getBaseContext.getAssets().open(dbName), new FileOutputStream(destPath));
             }
         } catch (IOException e) {

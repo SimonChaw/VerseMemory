@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <!-- Splash screen -->
         <activity
-            android:name="org.orithoncore.versememory.SplashScreen"
+            android:name=".SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -21,6 +21,12 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity android:name=".ManageVerses"
+            android:label="@string/app_name">
+            <intent-filter>
+                <category android:name="android.intent.category.default"/>
+            </intent-filter>
         </activity>
     </application>
 
