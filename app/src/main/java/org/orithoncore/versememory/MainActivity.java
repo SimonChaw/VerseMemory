@@ -12,8 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DataBaseBundler dbBundler = new DataBaseBundler();
-
-        dbBundler.bundleDataBase(getPackageName(), getBaseContext(), "DB-NAME");
+        dbBundler.bundleDataBase(getPackageName(), getBaseContext(), "bibleDB");
     }
 
     @Override
