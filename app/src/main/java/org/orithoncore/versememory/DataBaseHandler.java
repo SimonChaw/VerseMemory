@@ -1,5 +1,6 @@
 package org.orithoncore.versememory;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -42,6 +43,100 @@ public class DataBaseHandler {
         db = null;
     }
 
+
+
+    public String getVerse(String bookName,int chapter, int[] verses){
+        String verse = "";
+        try {
+            // initialization
+            cursor = null;
+
+
+            // do query on the database - parameterized query!
+            for(int i =0; i < verses.length; i ++) {
+                cursor = db.rawQuery("SELECT content FROM tblVerses WHERE chapterNum=" + chapter + " and verseNum=" + verses[i] + " and bookName='" + bookName + "'", null);
+
+                // looping through all rows and adding to list
+                if (cursor.moveToFirst()) {
+                    do {
+                        verse += verses[i] + " " + cursor.getString(0);
+/*                        if(verse.charAt(verse.length()) != ' '){
+                            verse = verse + " ";
+                        }*/
+                    } while (cursor.moveToNext());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.d("dbHandler","getBooks Exception: " + e.getMessage());
+        }
+        return verse;
+    }
+
+    public void saveVerseForQuiz(String bookName, int chapter, String verses){
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("bookName", bookName);
+            contentValues.put("chapterNum", chapter);
+            contentValues.put("verseNum", verses);
+            db.insert("tblUserVerses", null, contentValues);
+        }catch(Exception e){
+            Log.d("saveError",e.getMessage());
+        }
+    }
+
+    public void deleteVerseFromQuiz(int id){
+        try {
+            db.execSQL("DELETE FROM tblUserVerses WHERE verseID="+id);
+        } catch (Exception e) {
+            Log.d("dbHandler","getBooks Exception: " + e.getMessage());
+        }
+    }
+    public ArrayList<Verse> loadVerses(){
+        ArrayList<Verse> verses = new ArrayList<>();
+        try {
+            // initialization
+            cursor = null;
+
+
+            // do query on the database - parameterized query!
+            cursor = db.rawQuery("SELECT * FROM tblUserVerses",null);
+
+            // looping through all rows and adding to list
+            if (cursor.moveToFirst()) {
+                do {
+                    Verse verse = new Verse(cursor.getString(1),cursor.getInt(2),cursor.getString(3), cursor.getInt(0));
+                    verses.add(verse);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception e) {
+            Log.d("dbHandler","getBooks Exception: " + e.getMessage());
+        }
+        return verses;
+    }
+
+    public int getVerseCount(String bookName, int chapter){
+        int verses = 0;
+        try {
+            // initialization
+            cursor = null;
+
+
+            // do query on the database - parameterized query!
+            cursor = db.rawQuery("SELECT count(*) FROM tblVerses where bookName='"+bookName+"' and chapterNum=" + chapter,null);
+            // looping through all rows and adding to list
+            if (cursor.moveToFirst()) {
+                do {
+                    verses = cursor.getInt(0);
+                } while (cursor.moveToNext());
+            }
+
+        } catch (Exception e) {
+            Log.d("dbHandler","getBooks Exception: " + e.getMessage());
+        }
+        return verses;
+    }
 
     public ArrayList<String> getBooks(){
         ArrayList<String> books = new ArrayList<>();
@@ -101,6 +196,19 @@ public class DataBaseHandler {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        }
+    }
+
+    public class Verse{
+        String bookName;
+        int chapterNum;
+        String verseNum;
+        int id;
+        public Verse(String bookName, int chapterNum, String verseNum, int id){
+            this.bookName = bookName;
+            this.chapterNum = chapterNum;
+            this.verseNum = verseNum;
+            this.id = id;
         }
     }
 }

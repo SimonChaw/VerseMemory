@@ -7,4 +7,5 @@
     <string name="btnQuiz">Quiz!</string>
     <string name="txtInstructions">Add a scripture to your quiz list</string>
     <string name="txtScripturesLabel">List of scriptures: </string>
+    <string name="btnAdd">Add Scripture</string>
 </resources>

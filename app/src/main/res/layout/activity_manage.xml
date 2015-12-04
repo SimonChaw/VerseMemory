@@ -42,19 +42,78 @@
                 android:layout_weight="20"
                 android:id="@+id/spnChapter"/>
 
-            <EditText
+            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="40"
-                android:layout_column="2" />
+                android:layout_column="1"
+                android:layout_weight="30"
+                android:id="@+id/spnVerse" />
+
+            <TextView
+                android:text="-"
+                android:textSize="15sp"
+                android:layout_column="1"
+                android:gravity="center_horizontal"
+                android:layout_weight="10"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_weight="30"
+                android:id="@+id/spnVerse2" />
         </TableRow>
 
     </TableLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/container2"
+        android:layout_below="@+id/container2"
+        android:id="@+id/container3"
+        android:background="#67A0E1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPreviewHeading"
+            android:text="test"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/container3"
+        android:id="@+id/container4"
+        android:background="#A3C6ED"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPreviewScripture"
+            android:text="test"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/container4"
+        android:id="@+id/container5"
+        android:background="#A3C6ED"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAdd"
+            android:text="@string/btnAdd"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/container5"
         android:layout_marginLeft="10dp">
 
         <TextView
@@ -63,4 +122,19 @@
             android:text="@string/txtScripturesLabel"/>
 
     </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/container5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_below="@id/container5"
+            android:id="@+id/verseContainer">
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
