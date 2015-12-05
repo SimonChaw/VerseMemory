@@ -115,7 +115,7 @@ public class ManageVerses extends AppCompatActivity {
         if((Integer)spnVerses.getSelectedItem() == (Integer) spnVerses2.getSelectedItem()) {
             dbHandler.saveVerseForQuiz(spnBooks.getSelectedItem().toString(), (Integer) spnChapters.getSelectedItem(), spnVerses.getSelectedItem().toString() );
         }else{
-            String verse = (String) spnVerses.getSelectedItem() + "-" + (String) spnVerses2.getSelectedItem();
+            String verse = spnVerses.getSelectedItem().toString() + "-" + spnVerses2.getSelectedItem().toString();
             dbHandler.saveVerseForQuiz(spnBooks.getSelectedItem().toString(), (Integer) spnChapters.getSelectedItem(),verse);
         }
         dbHandler.close();
@@ -126,20 +126,16 @@ public class ManageVerses extends AppCompatActivity {
     public void loadVerses(Context ctx){
         dbHandler.open();
         ArrayList<DataBaseHandler.Verse> verses = dbHandler.loadVerses();
-        ArrayList<Button> buttons = new ArrayList<Button>();
-        ArrayList<TextView> textViews = new ArrayList<>();
 
         int i = 0;
         for(DataBaseHandler.Verse verse:verses){
             String dasVerse = verse.bookName + " " + verse.chapterNum + ":" + verse.verseNum;
             TextView textView = new TextView(ctx);
             textView.setText(dasVerse);
-            textViews.add(textView);
             Button button = new Button(ctx);
             button.setId(verse.id);
             button.setText("DELETE");
             button.setOnClickListener(deleter);
-            buttons.add(button);
             verseContainer.addView(textView);
             verseContainer.addView(button);
             Log.d("repeater","done " + i);
@@ -160,8 +156,8 @@ public class ManageVerses extends AppCompatActivity {
         dbHandler.open();
         ArrayList<String> books = dbHandler.getBooks();
         dbHandler.close();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, books);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, books);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spnBooks.setAdapter(arrayAdapter);
     }
 
@@ -171,8 +167,8 @@ public class ManageVerses extends AppCompatActivity {
         dbHandler.close();
         Integer[] chapters = new Integer[numChapters];
         for(int i =0; i<numChapters; i ++) chapters[i] = i + 1;
-        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, chapters);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this, R.layout.spinner_item, chapters);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         Log.d("numChapters", Integer.toString(numChapters));
         spnChapters.setAdapter(arrayAdapter);
     }
@@ -183,8 +179,8 @@ public class ManageVerses extends AppCompatActivity {
         dbHandler.close();
         Integer[] chapters = new Integer[numVerses];
         for(int i =0; i<numVerses; i ++) chapters[i] = i + 1;
-        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, chapters);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this, R.layout.spinner_item, chapters);
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         Log.d("numChapters", Integer.toString(numVerses));
         spnVerses.setAdapter(arrayAdapter);
         spnVerses2.setAdapter(arrayAdapter);

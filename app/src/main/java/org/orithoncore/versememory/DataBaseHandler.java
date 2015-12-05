@@ -100,7 +100,7 @@ public class DataBaseHandler {
 
 
             // do query on the database - parameterized query!
-            cursor = db.rawQuery("SELECT * FROM tblUserVerses",null);
+            cursor = db.rawQuery("SELECT * FROM tblUserVerses ORDER BY verseID DESC",null);
 
             // looping through all rows and adding to list
             if (cursor.moveToFirst()) {

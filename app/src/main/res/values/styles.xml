@@ -1,9 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
 
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#00ffff</item>
+
+    </style>
+
+    <style name="PopUp" parent="Theme.AppCompat.Dialog">
+        <item name="android:background">#4fc000</item>
     </style>
 
 </resources>

@@ -10,6 +10,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     Button btnManage;
+    Button btnQuiz;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +22,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, ManageVerses.class);
+                startActivity(i);
+            }
+        });
+        btnQuiz = (Button) findViewById(R.id.btnQuiz);
+        btnQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,QuizManager.class);
                 startActivity(i);
             }
         });

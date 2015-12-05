@@ -11,6 +11,7 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/app_name"
+            android:theme="@style/SplashTheme"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +24,19 @@
             android:label="@string/app_name" >
         </activity>
         <activity android:name=".ManageVerses"
+            android:theme="@style/SplashTheme"
             android:label="@string/app_name">
             <intent-filter>
                 <category android:name="android.intent.category.default"/>
             </intent-filter>
         </activity>
+        <activity android:name=".QuizManager"
+            android:theme="@style/SplashTheme"
+            >
+
+        </activity>
+        <activity android:name=".ScripturePickerPopup"
+            android:theme="@style/PopUp"></activity>
     </application>
 
 </manifest>
