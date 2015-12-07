@@ -199,16 +199,4 @@ public class DataBaseHandler {
         }
     }
 
-    public class Verse{
-        String bookName;
-        int chapterNum;
-        String verseNum;
-        int id;
-        public Verse(String bookName, int chapterNum, String verseNum, int id){
-            this.bookName = bookName;
-            this.chapterNum = chapterNum;
-            this.verseNum = verseNum;
-            this.id = id;
-        }
-    }
 }

@@ -22,6 +22,8 @@
 
     <style name="PopUp" parent="Theme.AppCompat.Dialog">
         <item name="android:background">#4fc000</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 </resources>

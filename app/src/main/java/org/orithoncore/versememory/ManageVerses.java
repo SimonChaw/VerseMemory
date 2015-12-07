@@ -125,10 +125,10 @@ public class ManageVerses extends AppCompatActivity {
 
     public void loadVerses(Context ctx){
         dbHandler.open();
-        ArrayList<DataBaseHandler.Verse> verses = dbHandler.loadVerses();
+        ArrayList<Verse> verses = dbHandler.loadVerses();
 
         int i = 0;
-        for(DataBaseHandler.Verse verse:verses){
+        for(Verse verse:verses){
             String dasVerse = verse.bookName + " " + verse.chapterNum + ":" + verse.verseNum;
             TextView textView = new TextView(ctx);
             textView.setText(dasVerse);
