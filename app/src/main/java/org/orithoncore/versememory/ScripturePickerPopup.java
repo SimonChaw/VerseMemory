@@ -1,8 +1,11 @@
 package org.orithoncore.versememory;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -86,6 +89,7 @@ public class ScripturePickerPopup extends AppCompatActivity {
                     if (!pickedVerse.verseNum.equals(button.getText())) {
                         pickedVerse.verseNum = pickedVerse.verseNum + "-" + button.getText();
                     }
+                    packageResult();
                 }
             });
             buttons.add(button);
@@ -141,20 +145,18 @@ public class ScripturePickerPopup extends AppCompatActivity {
     }
 
     private void populateCheck(LinearLayout ll, ArrayList<Button> collection) {
-
-        Display display = getWindowManager().getDefaultDisplay();
-        int maxWidth = display.getWidth() - 50;
+        int width = this.getWindow().getDecorView().getWidth();
+        int maxWidth = width + 50;
 
         if (collection.size() > 0) {
             LinearLayout llAlso = new LinearLayout(this);
             llAlso.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
             llAlso.setOrientation(LinearLayout.HORIZONTAL);
             int widthSoFar = 0;
             for (Button button : collection) {
                 button.measure(0, 0);
                 widthSoFar += button.getMeasuredWidth();
-
                 if (widthSoFar >= maxWidth) {
                     ll.addView(llAlso);
 
@@ -183,6 +185,13 @@ public class ScripturePickerPopup extends AppCompatActivity {
         }else{
             finish();
         }
+    }
+
+    public void packageResult(){
+        Intent data = new Intent();
+        data.putExtra("verse",pickedVerse);
+        setResult(RESULT_OK, data);
+        finish();
     }
 
 }

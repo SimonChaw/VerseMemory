@@ -8,4 +8,5 @@
     <string name="txtInstructions">Add a scripture to your quiz list</string>
     <string name="txtScripturesLabel">List of scriptures: </string>
     <string name="btnAdd">Add This Scripture</string>
+    <string name="btnNew">Add New Scripture</string>
 </resources>

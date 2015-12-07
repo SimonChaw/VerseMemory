@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,110 +7,74 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:id="@+id/container1">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:textSize="@dimen/textHeading"
             android:text="@string/txtInstructions"/>
-
-    </LinearLayout>
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/container1"
-        android:layout_marginRight="10dp"
-        android:id="@+id/container2">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spnBook"
-                android:layout_column="0"
-                android:layout_weight="20"/>
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_weight="20"
-                android:id="@+id/spnChapter"/>
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_weight="30"
-                android:id="@+id/spnVerse"/>
-
-            <TextView
-                android:text="-"
-                android:textSize="15sp"
-                android:layout_column="1"
-                android:gravity="center_horizontal"
-                android:layout_weight="10"/>
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_weight="30"
-                android:id="@+id/spnVerse2" />
-        </TableRow>
-
-    </TableLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/container2"
-        android:id="@+id/container3"
-        android:background="#67A0E1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtPreviewHeading"
-            android:textSize="@dimen/textHeading"
-            android:text="test"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/container3"
-        android:id="@+id/container4"
-        android:background="#A3C6ED"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtPreviewScripture"
-            android:textSize="@dimen/textSize"
-            android:text="test"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/container4"
-        android:id="@+id/container5"
-        android:background="#A3C6ED"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnAdd"
-            android:text="@string/btnAdd"/>
+            android:text="@string/btnNew"
+            android:id="@+id/btnNew"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/verseContainer">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/container1"
+            android:id="@+id/container3"
+            android:background="#67A0E1"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtPreviewHeading"
+                android:textSize="@dimen/textHeading"
+                android:text="test"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/container3"
+            android:id="@+id/container4"
+            android:background="#A3C6ED"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtPreviewScripture"
+                android:textSize="@dimen/textSize"
+                android:text="test"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/container4"
+            android:id="@+id/container5"
+            android:background="#A3C6ED"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnAdd"
+                android:text="@string/btnAdd"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -137,8 +101,8 @@
             android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:layout_below="@id/container5"
-            android:id="@+id/verseContainer">
+            android:id="@+id/savedVerses">
 
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+</LinearLayout>

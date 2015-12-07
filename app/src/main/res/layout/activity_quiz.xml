@@ -10,6 +10,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TEST"
+                android:id="@+id/txtHeading"
                 android:textSize="@dimen/textHeading"/>
         </TableRow>
         <TableRow
@@ -17,6 +18,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtVerse"
                 android:text="TEST"/>
         </TableRow>
         <LinearLayout

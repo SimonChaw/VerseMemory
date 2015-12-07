@@ -2,6 +2,7 @@ package org.orithoncore.versememory;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,29 +21,25 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class ManageVerses extends AppCompatActivity {
-    Spinner spnBooks;
-    Spinner spnChapters;
-    Spinner spnVerses;
-    Spinner spnVerses2;
     DataBaseHandler dbHandler;
     LinearLayout previewContainer;
+    LinearLayout savedVerses;
     EditText txtVerse;
     TextView txtScripture;
     TextView txtHeading;
     LinearLayout verseContainer;
     Button btnAdd;
+    Button btnNew;
+    Verse currentVerse;
     View.OnClickListener deleter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
         dbHandler = new DataBaseHandler(this);
+        savedVerses = (LinearLayout) findViewById(R.id.savedVerses);
         previewContainer = (LinearLayout) findViewById(R.id.container3);
-        spnBooks = (Spinner) findViewById(R.id.spnBook);
         verseContainer = (LinearLayout) findViewById(R.id.verseContainer);
-        spnChapters = (Spinner) findViewById(R.id.spnChapter);
-        spnVerses = (Spinner) findViewById(R.id.spnVerse);
-        spnVerses2 = (Spinner) findViewById(R.id.spnVerse2);
         txtHeading = (TextView) findViewById(R.id.txtPreviewHeading);
         txtScripture = (TextView) findViewById(R.id.txtPreviewScripture);
         deleter = new View.OnClickListener() {
@@ -58,66 +55,21 @@ public class ManageVerses extends AppCompatActivity {
                 saveVerse();
             }
         });
-        spnBooks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        btnNew = (Button) findViewById(R.id.btnNew);
+        verseContainer.setVisibility(View.INVISIBLE);
+        btnNew.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                populateChapters();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                Intent i = new Intent(ManageVerses.this, ScripturePickerPopup.class);
+                startActivityForResult(i, 90);
             }
         });
-        spnChapters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                populateVerses();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        spnVerses.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spnVerses2.setSelection(spnVerses.getSelectedItemPosition());
-                previewScripture();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        spnVerses2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if((Integer)spnVerses2.getSelectedItem() < (Integer)spnVerses.getSelectedItem()){
-                    spnVerses2.setSelection(spnVerses.getSelectedItemPosition());
-                }
-                previewScripture();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        populateBooks();
         loadVerses(this);
     }
 
     public void saveVerse(){
         dbHandler.open();
-        if((Integer)spnVerses.getSelectedItem() == (Integer) spnVerses2.getSelectedItem()) {
-            dbHandler.saveVerseForQuiz(spnBooks.getSelectedItem().toString(), (Integer) spnChapters.getSelectedItem(), spnVerses.getSelectedItem().toString() );
-        }else{
-            String verse = spnVerses.getSelectedItem().toString() + "-" + spnVerses2.getSelectedItem().toString();
-            dbHandler.saveVerseForQuiz(spnBooks.getSelectedItem().toString(), (Integer) spnChapters.getSelectedItem(),verse);
-        }
+            dbHandler.saveVerseForQuiz(currentVerse.bookName,currentVerse.chapterNum,currentVerse.verseNum);
         dbHandler.close();
         verseContainer.removeAllViews();
         loadVerses(this);
@@ -126,20 +78,23 @@ public class ManageVerses extends AppCompatActivity {
     public void loadVerses(Context ctx){
         dbHandler.open();
         ArrayList<Verse> verses = dbHandler.loadVerses();
-
         int i = 0;
-        for(Verse verse:verses){
-            String dasVerse = verse.bookName + " " + verse.chapterNum + ":" + verse.verseNum;
-            TextView textView = new TextView(ctx);
-            textView.setText(dasVerse);
-            Button button = new Button(ctx);
-            button.setId(verse.id);
-            button.setText("DELETE");
-            button.setOnClickListener(deleter);
-            verseContainer.addView(textView);
-            verseContainer.addView(button);
-            Log.d("repeater","done " + i);
-            i++;
+        if(!verses.isEmpty()) {
+            for (Verse verse : verses) {
+                String dasVerse = verse.bookName + " " + verse.chapterNum + ":" + verse.verseNum;
+                TextView textView = new TextView(ctx);
+                textView.setText(dasVerse);
+                Button button = new Button(ctx);
+                button.setId(verse.id);
+                button.setText("DELETE");
+                button.setOnClickListener(deleter);
+                savedVerses.addView(textView);
+                savedVerses.addView(button);
+                Log.d("repeater", "done " + i);
+                i++;
+            }
+        }else{
+
         }
         dbHandler.close();
     }
@@ -152,61 +107,35 @@ public class ManageVerses extends AppCompatActivity {
         loadVerses(this);
     }
 
-    public void populateBooks(){
-        dbHandler.open();
-        ArrayList<String> books = dbHandler.getBooks();
-        dbHandler.close();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, books);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
-        spnBooks.setAdapter(arrayAdapter);
-    }
-
-    public void populateChapters(){
-        dbHandler.open();
-        int numChapters = dbHandler.getChapters(spnBooks.getSelectedItem().toString());
-        dbHandler.close();
-        Integer[] chapters = new Integer[numChapters];
-        for(int i =0; i<numChapters; i ++) chapters[i] = i + 1;
-        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this, R.layout.spinner_item, chapters);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
-        Log.d("numChapters", Integer.toString(numChapters));
-        spnChapters.setAdapter(arrayAdapter);
-    }
-
-    public void populateVerses(){
-        dbHandler.open();
-        int numVerses = dbHandler.getVerseCount(spnBooks.getSelectedItem().toString(), (Integer) spnChapters.getSelectedItem());
-        dbHandler.close();
-        Integer[] chapters = new Integer[numVerses];
-        for(int i =0; i<numVerses; i ++) chapters[i] = i + 1;
-        ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(this, R.layout.spinner_item, chapters);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
-        Log.d("numChapters", Integer.toString(numVerses));
-        spnVerses.setAdapter(arrayAdapter);
-        spnVerses2.setAdapter(arrayAdapter);
-    }
-
-
 
     public void previewScripture(){
         //Set up heading
-        int verseRangeLow = Integer.parseInt(spnVerses.getSelectedItem().toString());
-        int verseRangeHigh = Integer.parseInt(spnVerses2.getSelectedItem().toString());
-        if(verseRangeLow != verseRangeHigh){
-            int[] verses = new int[(verseRangeHigh - verseRangeLow) + 1];
-            for(int i=0; i < verses.length; i++){
-                verses[i] = verseRangeLow + i;
+        if(currentVerse.verseNum.contains("-")) {
+            String[] verses = currentVerse.verseNum.split("-");
+            int verseRangeLow = Integer.parseInt(verses[0]);
+            int verseRangeHigh = Integer.parseInt(verses[1]);
+            int[] verseRange = new int[(verseRangeHigh - verseRangeLow) + 2];
+            for (int i = 0; i < verses.length; i++) {
+                verseRange[i] = verseRangeLow + i;
             }
             dbHandler.open();
-            txtHeading.setText((String)spnBooks.getSelectedItem() + " " + spnChapters.getSelectedItem() + ":" + spnVerses.getSelectedItem());
-            txtScripture.setText(dbHandler.getVerse((String)spnBooks.getSelectedItem(),(Integer)spnChapters.getSelectedItem(),verses));
+            txtHeading.setText(currentVerse.bookName + " " + currentVerse.chapterNum + ":" + currentVerse.verseNum);
+            txtScripture.setText(dbHandler.getVerse(currentVerse.bookName,currentVerse.chapterNum,verseRange));
             dbHandler.close();
         }else{
             dbHandler.open();
-            txtHeading.setText((String)spnBooks.getSelectedItem() + " " + spnChapters.getSelectedItem() + ":" + spnVerses.getSelectedItem());
-            int[] verses = {verseRangeLow};
-            txtScripture.setText(dbHandler.getVerse((String)spnBooks.getSelectedItem(),(Integer)spnChapters.getSelectedItem(),verses));
+            txtHeading.setText(currentVerse.bookName + " " + currentVerse.chapterNum + ":" + currentVerse.verseNum);
+            int[] verse = {Integer.parseInt(currentVerse.verseNum)};
+            txtScripture.setText(dbHandler.getVerse(currentVerse.bookName, currentVerse.chapterNum, verse));
             dbHandler.close();
         }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            currentVerse = (Verse) data.getParcelableExtra("verse");
+        }
+        verseContainer.setVisibility(View.VISIBLE);
+        previewScripture();
     }
 }
