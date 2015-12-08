@@ -45,7 +45,7 @@ public class DataBaseHandler {
 
 
 
-    public String getVerse(String bookName,int chapter, int[] verses){
+    public String getVerse(String bookName,int chapter, int[] verses, boolean returnVerseNum){
         String verse = "";
         try {
             // initialization
@@ -59,7 +59,12 @@ public class DataBaseHandler {
                 // looping through all rows and adding to list
                 if (cursor.moveToFirst()) {
                     do {
-                        verse += verses[i] + " " + cursor.getString(0);
+                        if(returnVerseNum){
+                            verse += verses[i] + " " + cursor.getString(0);
+                        }else{
+                            verse += " " + cursor.getString(0);
+                        }
+
 /*                        if(verse.charAt(verse.length()) != ' '){
                             verse = verse + " ";
                         }*/

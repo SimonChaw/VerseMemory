@@ -147,7 +147,6 @@ public class ScripturePickerPopup extends AppCompatActivity {
     private void populateCheck(LinearLayout ll, ArrayList<Button> collection) {
         int width = this.getWindow().getDecorView().getWidth();
         int maxWidth = width + 50;
-
         if (collection.size() > 0) {
             LinearLayout llAlso = new LinearLayout(this);
             llAlso.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
@@ -172,7 +171,6 @@ public class ScripturePickerPopup extends AppCompatActivity {
                     llAlso.addView(button);
                 }
             }
-
             ll.addView(llAlso);
         }
     }

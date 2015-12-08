@@ -9,4 +9,5 @@
     <string name="txtScripturesLabel">List of scriptures: </string>
     <string name="btnAdd">Add This Scripture</string>
     <string name="btnNew">Add New Scripture</string>
+    <string name="btnRetry">Retry Quiz</string>
 </resources>

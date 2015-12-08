@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:background="#c3e7e7"
+    android:layout_height="match_parent">
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
+        android:layout_height="wrap_content"
+        android:id="@+id/QuizLayout"
+        android:layout_marginBottom="100dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="20dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TEST"
+                android:gravity="center"
                 android:id="@+id/txtHeading"
                 android:textSize="@dimen/textHeading"/>
-        </TableRow>
-        <TableRow
-            android:layout_gravity="center">
+        </LinearLayout>
+        <TableRow android:gravity="center"
+            android:layout_width="match_parent"
+            android:padding="50dp">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtVerse"
                 android:text="TEST"/>
@@ -34,7 +44,36 @@
                 android:text="make a guess"/>
 
         </LinearLayout>
-
-
     </TableLayout>
-</RelativeLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/FeedBackLayout"
+        android:visibility="gone"
+        android:layout_marginBottom="100dp">
+        <TableRow android:gravity="center"
+        android:padding="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtFeedBack"
+                android:textSize="@dimen/textHeading"/>
+        </TableRow>
+        <TableRow android:gravity="center"
+            android:padding="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtScore"
+                android:textSize="@dimen/textSize"/>
+        </TableRow>
+        <TableRow android:gravity="center"
+            android:padding="20dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:id="@+id/btnRetry"
+                android:text="@string/btnRetry"
+                android:layout_height="wrap_content" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

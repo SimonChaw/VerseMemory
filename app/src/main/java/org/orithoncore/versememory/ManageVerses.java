@@ -56,7 +56,7 @@ public class ManageVerses extends AppCompatActivity {
             }
         });
         btnNew = (Button) findViewById(R.id.btnNew);
-        verseContainer.setVisibility(View.INVISIBLE);
+        verseContainer.setVisibility(View.GONE);
         btnNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +71,7 @@ public class ManageVerses extends AppCompatActivity {
         dbHandler.open();
             dbHandler.saveVerseForQuiz(currentVerse.bookName,currentVerse.chapterNum,currentVerse.verseNum);
         dbHandler.close();
-        verseContainer.removeAllViews();
+        savedVerses.removeAllViews();
         loadVerses(this);
     }
 
@@ -103,39 +103,41 @@ public class ManageVerses extends AppCompatActivity {
         dbHandler.open();
         dbHandler.deleteVerseFromQuiz(id);
         dbHandler.close();
-        verseContainer.removeAllViews();
+        savedVerses.removeAllViews();
         loadVerses(this);
     }
 
 
     public void previewScripture(){
         //Set up heading
-        if(currentVerse.verseNum.contains("-")) {
-            String[] verses = currentVerse.verseNum.split("-");
-            int verseRangeLow = Integer.parseInt(verses[0]);
-            int verseRangeHigh = Integer.parseInt(verses[1]);
-            int[] verseRange = new int[(verseRangeHigh - verseRangeLow) + 2];
-            for (int i = 0; i < verses.length; i++) {
-                verseRange[i] = verseRangeLow + i;
+        if(currentVerse!=null) {
+            if (currentVerse.verseNum.contains("-")) {
+                String[] verses = currentVerse.verseNum.split("-");
+                int verseRangeLow = Integer.parseInt(verses[0]);
+                int verseRangeHigh = Integer.parseInt(verses[1]);
+                int[] verseRange = new int[(verseRangeHigh - verseRangeLow) + 1];
+                for (int i = 0; i < verseRange.length; i++) {
+                    verseRange[i] = verseRangeLow + i;
+                }
+                dbHandler.open();
+                txtHeading.setText(currentVerse.bookName + " " + currentVerse.chapterNum + ":" + currentVerse.verseNum);
+                txtScripture.setText(dbHandler.getVerse(currentVerse.bookName, currentVerse.chapterNum, verseRange, true));
+                dbHandler.close();
+            } else {
+                dbHandler.open();
+                txtHeading.setText(currentVerse.bookName + " " + currentVerse.chapterNum + ":" + currentVerse.verseNum);
+                int[] verse = {Integer.parseInt(currentVerse.verseNum)};
+                txtScripture.setText(dbHandler.getVerse(currentVerse.bookName, currentVerse.chapterNum, verse, true));
+                dbHandler.close();
             }
-            dbHandler.open();
-            txtHeading.setText(currentVerse.bookName + " " + currentVerse.chapterNum + ":" + currentVerse.verseNum);
-            txtScripture.setText(dbHandler.getVerse(currentVerse.bookName,currentVerse.chapterNum,verseRange));
-            dbHandler.close();
-        }else{
-            dbHandler.open();
-            txtHeading.setText(currentVerse.bookName + " " + currentVerse.chapterNum + ":" + currentVerse.verseNum);
-            int[] verse = {Integer.parseInt(currentVerse.verseNum)};
-            txtScripture.setText(dbHandler.getVerse(currentVerse.bookName, currentVerse.chapterNum, verse));
-            dbHandler.close();
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             currentVerse = (Verse) data.getParcelableExtra("verse");
+            verseContainer.setVisibility(View.VISIBLE);
+            previewScripture();
         }
-        verseContainer.setVisibility(View.VISIBLE);
-        previewScripture();
     }
 }
