@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Simon\Documents\VerseMemory\VerseMemory\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="C:\Users\Simon\Documents\VerseMemory\VerseMemory\app\build\intermediates\pre-dexed\debug\classes-d4b1eb5481650d9cc9626fea704e7371cac5d700.jar" />
-    </item>
-    <item
-        jar="C:\Users\Simon\Documents\VerseMemory\VerseMemory\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="C:\Users\Simon\Documents\VerseMemory\VerseMemory\app\build\intermediates\pre-dexed\debug\classes-a37123ce29c9f72512656b1d9baca623de0c2de5.jar" />
-    </item>
-    <item
-        jar="C:\Users\Simon\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jar="C:\Users\Administrator\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="C:\Users\Simon\Documents\VerseMemory\VerseMemory\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-59b6d4f1b19e59be062cedc3d09d600df1cab5a2.jar" />
+        <dex dex="C:\Users\Itstudent.TRUSYS\Documents\GitHub\VerseMemory\app\build\intermediates\pre-dexed\release\support-annotations-23.0.1-60507c7646f6783e18f31466b10a5d962f0c4902.jar" />
     </item>
     <item
-        jar="C:\Users\Simon\Documents\VerseMemory\VerseMemory\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jar="C:\Users\Itstudent.TRUSYS\Documents\GitHub\VerseMemory\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="C:\Users\Itstudent.TRUSYS\Documents\GitHub\VerseMemory\app\build\intermediates\pre-dexed\release\classes-47a6b9113bf9ddf93d96a90ed2324165f7ecdff3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Itstudent.TRUSYS\Documents\GitHub\VerseMemory\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="C:\Users\Simon\Documents\VerseMemory\VerseMemory\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-d81e107294d9deb030d81ba9ae1c43701fdc16dd.jar" />
+        <dex dex="C:\Users\Itstudent.TRUSYS\Documents\GitHub\VerseMemory\app\build\intermediates\pre-dexed\release\internal_impl-23.0.1-73a977e3f395bb0560e58283447889c0900240bb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Itstudent.TRUSYS\Documents\GitHub\VerseMemory\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="C:\Users\Itstudent.TRUSYS\Documents\GitHub\VerseMemory\app\build\intermediates\pre-dexed\release\classes-3570a4ab2f2c4be4198d03ce6a5201b68b18d497.jar" />
     </item>
 
 </items>

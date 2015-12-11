@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
+
+
+
 /**
  * Created by Simon on 12/4/2015.
  */
@@ -30,6 +33,7 @@ public class QuizManager extends AppCompatActivity {
     TextView txtVerse;
     TextView txtScore;
     TextView txtFeedBack;
+    Button btnRetry;
     LinearLayout quizLayout;
     LinearLayout feedbackLayout;
     int currentIndex;
@@ -51,14 +55,22 @@ public class QuizManager extends AppCompatActivity {
         txtHeading = (TextView) findViewById(R.id.txtHeading);
         txtVerse = (TextView) findViewById(R.id.txtVerse);
         txtScore = (TextView) findViewById(R.id.txtScore);
+        btnRetry = (Button) findViewById(R.id.btnRetry);
         txtVerse.setMovementMethod(new ScrollingMovementMethod());
         txtFeedBack = (TextView) findViewById(R.id.txtFeedBack);
         currentIndex = 0;
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restart();
+            }
+        });
         loadVerses(this);
         if (verses.size() != 0) {//if there are verses setup the quiz
             if (savedInstanceState != null) {
                 verses = savedInstanceState.getParcelableArrayList("verses");
                 currentIndex = savedInstanceState.getInt("currentIndex");
+                guessedCorrect = savedInstanceState.getInt("guessedCorrect");
                 if (currentIndex == verses.size() - 1) {
                     end();
                 } else {
@@ -79,6 +91,7 @@ public class QuizManager extends AppCompatActivity {
         }else{
             quizLayout.setVisibility(View.GONE);
             feedbackLayout.setVisibility(View.VISIBLE);
+            btnRetry.setVisibility(View.GONE);
             txtFeedBack.setText(getString(R.string.noVerse));
             txtScore.setText(getString(R.string.noVerseInstruction));
         }
@@ -88,15 +101,16 @@ public class QuizManager extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("verses", verses);
-        outState.putInt("currentIndex",currentIndex);
+        outState.putInt("currentIndex", currentIndex);
+        outState.putInt("guessedCorrect",guessedCorrect);
     }
 
     public void next(){
+        if(guessedVerse.bookName.equals(verses.get(currentIndex).bookName) && guessedVerse.chapterNum == verses.get(currentIndex).chapterNum
+                && guessedVerse.verseNum.equals(verses.get(currentIndex).verseNum)){
+            guessedCorrect ++;
+        }
        if(currentIndex < verses.size() - 1){//if the guessed verse matches add a point
-           if(guessedVerse.bookName.equals(verses.get(currentIndex).bookName) && guessedVerse.chapterNum == verses.get(currentIndex).chapterNum
-                   && guessedVerse.verseNum.equals(verses.get(currentIndex).verseNum)){
-               guessedCorrect ++;
-           }
            currentIndex ++;//increment the current index
            txtVerse.startAnimation(out);//start animation
            setUpQuestion();
@@ -112,11 +126,11 @@ public class QuizManager extends AppCompatActivity {
         if(guessedCorrect > (verses.size() / 2)){
             //feedback to user, they did good
             txtFeedBack.setText(getString(R.string.feedbackGood));
-            txtScore.setText(getString(R.string.goodFeedback1) + guessedCorrect + getString(R.string.outOf) + verses.size() + getString(R.string.goodFeedback2));
+            txtScore.setText(getString(R.string.goodFeedback1) + " " + guessedCorrect + " " + getString(R.string.outOf) + " " + verses.size() + getString(R.string.goodFeedback2));
         }else{
             //feedback to user, they could do better
             txtFeedBack.setText(getString(R.string.feedbackBad));
-            txtScore.setText(getString(R.string.badFeedback1) + guessedCorrect + getString(R.string.outOf) + verses.size() + getString(R.string.badFeedback2));
+            txtScore.setText(getString(R.string.badFeedback1) + " " + guessedCorrect + " " + getString(R.string.outOf) + " " + verses.size() + getString(R.string.badFeedback2));
         }
     }
 
@@ -141,14 +155,22 @@ public class QuizManager extends AppCompatActivity {
     public void loadVerses(Context ctx){//load all the verses
         dbHandler.open();
         verses = dbHandler.loadVerses();
-        int i = 0;
         Collections.shuffle(verses);//shuffle the verses
         dbHandler.close();
     }
 
+    public void restart(){
+        Collections.shuffle(verses);//shuffle the verses
+        currentIndex = 0; //reset the current index
+        feedbackLayout.setVisibility(View.GONE);//show the thing
+        quizLayout.setVisibility(View.VISIBLE);//i mean. hide the thing.
+        txtVerse.startAnimation(in);
+        setUpQuestion();
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            guessedVerse = (Verse) data.getParcelableExtra("verse");
+            guessedVerse = data.getParcelableExtra("verse");
             next();
         }
     }

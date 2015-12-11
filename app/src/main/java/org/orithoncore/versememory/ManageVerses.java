@@ -40,6 +40,7 @@ public class ManageVerses extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
         dbHandler = new DataBaseHandler(this);
+        currentVerse = null;
         savedVerses = (LinearLayout) findViewById(R.id.savedVerses);
         previewContainer = (LinearLayout) findViewById(R.id.container3);
         verseContainer = (LinearLayout) findViewById(R.id.verseContainer);
@@ -62,8 +63,11 @@ public class ManageVerses extends AppCompatActivity {
         });
         if(savedInstanceState != null){
             currentVerse = savedInstanceState.getParcelable("verse");
-            verseContainer.setVisibility(View.VISIBLE);
-            previewScripture();
+            if(currentVerse != null) {
+                verseContainer.setVisibility(View.VISIBLE);
+                Log.d("test", "here");
+                previewScripture();
+            }
         }else{
             verseContainer.setVisibility(View.GONE);
         }
@@ -165,7 +169,7 @@ public class ManageVerses extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {//get the verse from scripture picker
-            currentVerse = (Verse) data.getParcelableExtra("verse");
+            currentVerse = data.getParcelableExtra("verse");
             verseContainer.setVisibility(View.VISIBLE);
             previewScripture();
         }
