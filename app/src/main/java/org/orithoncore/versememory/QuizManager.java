@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -25,6 +28,10 @@ public class QuizManager extends AppCompatActivity {
     ArrayList<Verse> verses;
     TextView txtHeading;
     TextView txtVerse;
+    TextView txtScore;
+    TextView txtFeedBack;
+    LinearLayout quizLayout;
+    LinearLayout feedbackLayout;
     int currentIndex;
     int guessedCorrect;
     Verse guessedVerse;
@@ -39,70 +46,104 @@ public class QuizManager extends AppCompatActivity {
         out.setDuration(3000);
         setContentView(R.layout.activity_quiz);
         dbHandler = new DataBaseHandler(this);
+        quizLayout = (LinearLayout) findViewById(R.id.QuizLayout);
+        feedbackLayout = (LinearLayout) findViewById(R.id.FeedBackLayout);
         txtHeading = (TextView) findViewById(R.id.txtHeading);
         txtVerse = (TextView) findViewById(R.id.txtVerse);
-        currentIndex =0;
+        txtScore = (TextView) findViewById(R.id.txtScore);
+        txtVerse.setMovementMethod(new ScrollingMovementMethod());
+        txtFeedBack = (TextView) findViewById(R.id.txtFeedBack);
+        txtHeading.setText("Where is the following scripture from?");
+        currentIndex = 0;
         loadVerses(this);
-        setUpQuestion();
-        btnPickScripture = (Button) findViewById(R.id.btnMakeGuess);
-        btnPickScripture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(QuizManager.this, ScripturePickerPopup.class);
-                startActivityForResult(i, 90);
+        if (verses.size() != 0) {//if there are verses setup the quiz
+            if (savedInstanceState != null) {
+                verses = savedInstanceState.getParcelableArrayList("verses");
+                currentIndex = savedInstanceState.getInt("currentIndex");
+                if (currentIndex == verses.size() - 1) {
+                    end();
+                } else {
+                    setUpQuestion();
+                }
+            } else {
+                txtVerse.startAnimation(in);
+                setUpQuestion();
             }
-        });
+            btnPickScripture = (Button) findViewById(R.id.btnMakeGuess);
+            btnPickScripture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(QuizManager.this, ScripturePickerPopup.class);
+                    startActivityForResult(i, 90);
+                }
+            });
+        }else{
+            quizLayout.setVisibility(View.GONE);
+            feedbackLayout.setVisibility(View.VISIBLE);
+            txtFeedBack.setText("No scriptures saved.");
+            txtScore.setText("You can add scriptures by going back and pressing the add scripture button.");
+        }
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("verses", verses);
+        outState.putInt("currentIndex",currentIndex);
     }
 
     public void next(){
-       if(currentIndex < verses.size()){
+       if(currentIndex < verses.size() - 1){//if the guessed verse matches add a point
            if(guessedVerse.bookName.equals(verses.get(currentIndex).bookName) && guessedVerse.chapterNum == verses.get(currentIndex).chapterNum
                    && guessedVerse.verseNum.equals(verses.get(currentIndex).verseNum)){
                guessedCorrect ++;
            }
-           currentIndex ++;
+           currentIndex ++;//increment the current index
+           txtVerse.startAnimation(out);//start animation
            setUpQuestion();
+           txtVerse.startAnimation(in);
        }else{
-           if(guessedCorrect > (verses.size() / 2)){
-               //feedback to user, they did good
-           }else{
-               //feedback to user, they could do better
-           }
+           end();
        }
-
     }
 
-    public void setUpQuestion(){
-        txtHeading.setText("Where is the following scripture from?");
-        txtVerse.startAnimation(out);
+    public void end(){
+        quizLayout.setVisibility(View.GONE);//hide the quiz UI
+        feedbackLayout.setVisibility(View.VISIBLE);//show the feedback
+        if(guessedCorrect > (verses.size() / 2)){
+            //feedback to user, they did good
+            txtFeedBack.setText("Well done!");
+            txtScore.setText("Congratulations, you guessed " + guessedCorrect + " verses correctly out of " + verses.size() + ". Well done, click retry to start again.");
+        }else{
+            //feedback to user, they could do better
+            txtFeedBack.setText("You can do better... ");
+            txtScore.setText("You guessed " + guessedCorrect + " verses correctly out of " + verses.size() + ". Practice makes perfect. Click retry to start again.");
+        }
+    }
+
+    public void setUpQuestion() {
         dbHandler.open();
-        if(verses.get(currentIndex).verseNum.contains("-")) {
+        if(verses.get(currentIndex).verseNum.contains("-")) {//set up a number range of verses if need be
             String[] verses2 = verses.get(currentIndex).verseNum.split("-");
             int verseRangeLow = Integer.parseInt(verses2[0]);
             int verseRangeHigh = Integer.parseInt(verses2[1]);
             int[] verseRange = new int[(verseRangeHigh - verseRangeLow) + 1];
             for (int i = 0; i < verseRange.length; i++) {
                 verseRange[i] = verseRangeLow + i;
-            }
-            txtVerse.setText(dbHandler.getVerse(verses.get(currentIndex).bookName, verses.get(currentIndex).chapterNum,verseRange,false));
-            txtVerse.startAnimation(in);
+            }//set up verse with out the verseNum
+            txtVerse.setText(dbHandler.getVerse(verses.get(currentIndex).bookName, verses.get(currentIndex).chapterNum, verseRange,false));
         }else{
             int[] verseRange = {Integer.parseInt(verses.get(currentIndex).verseNum)};
             txtVerse.setText(dbHandler.getVerse(verses.get(currentIndex).bookName, verses.get(currentIndex).chapterNum,verseRange,false));
-            txtVerse.startAnimation(in);
         }
         dbHandler.close();
     }
 
-    public void loadVerses(Context ctx){
+    public void loadVerses(Context ctx){//load all the verses
         dbHandler.open();
         verses = dbHandler.loadVerses();
         int i = 0;
-        if(verses.isEmpty()) {
-
-        }
-        Collections.shuffle(verses);
+        Collections.shuffle(verses);//shuffle the verses
         dbHandler.close();
     }
 
