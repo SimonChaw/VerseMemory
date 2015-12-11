@@ -112,7 +112,7 @@ public class ManageVerses extends AppCompatActivity {
                 textView.setText(dasVerse);
                 Button button = new Button(ctx);
                 button.setId(verse.id);//set the button id to the db's verse id for later use
-                button.setText("DELETE");
+                button.setText(getResources().getString(R.string.btnDelete));
                 button.setOnClickListener(deleter);
                 savedVerses.addView(textView);
                 savedVerses.addView(button);

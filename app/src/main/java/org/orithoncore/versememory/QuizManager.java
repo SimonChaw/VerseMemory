@@ -53,7 +53,6 @@ public class QuizManager extends AppCompatActivity {
         txtScore = (TextView) findViewById(R.id.txtScore);
         txtVerse.setMovementMethod(new ScrollingMovementMethod());
         txtFeedBack = (TextView) findViewById(R.id.txtFeedBack);
-        txtHeading.setText("Where is the following scripture from?");
         currentIndex = 0;
         loadVerses(this);
         if (verses.size() != 0) {//if there are verses setup the quiz
@@ -80,8 +79,8 @@ public class QuizManager extends AppCompatActivity {
         }else{
             quizLayout.setVisibility(View.GONE);
             feedbackLayout.setVisibility(View.VISIBLE);
-            txtFeedBack.setText("No scriptures saved.");
-            txtScore.setText("You can add scriptures by going back and pressing the add scripture button.");
+            txtFeedBack.setText(getString(R.string.noVerse));
+            txtScore.setText(getString(R.string.noVerseInstruction));
         }
     }
 
@@ -112,12 +111,12 @@ public class QuizManager extends AppCompatActivity {
         feedbackLayout.setVisibility(View.VISIBLE);//show the feedback
         if(guessedCorrect > (verses.size() / 2)){
             //feedback to user, they did good
-            txtFeedBack.setText("Well done!");
-            txtScore.setText("Congratulations, you guessed " + guessedCorrect + " verses correctly out of " + verses.size() + ". Well done, click retry to start again.");
+            txtFeedBack.setText(getString(R.string.feedbackGood));
+            txtScore.setText(getString(R.string.goodFeedback1) + guessedCorrect + getString(R.string.outOf) + verses.size() + getString(R.string.goodFeedback2));
         }else{
             //feedback to user, they could do better
-            txtFeedBack.setText("You can do better... ");
-            txtScore.setText("You guessed " + guessedCorrect + " verses correctly out of " + verses.size() + ". Practice makes perfect. Click retry to start again.");
+            txtFeedBack.setText(getString(R.string.feedbackBad));
+            txtScore.setText(getString(R.string.badFeedback1) + guessedCorrect + getString(R.string.outOf) + verses.size() + getString(R.string.badFeedback2));
         }
     }
 

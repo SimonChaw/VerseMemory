@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TEST"
+                android:text="@string/quizPrompt"
                 android:gravity="center"
                 android:id="@+id/txtHeading"
                 android:textSize="@dimen/textHeading"/>
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnMakeGuess"
-                android:text="make a guess"/>
+                android:text="@string/prompt"/>
 
         </LinearLayout>
     </LinearLayout>

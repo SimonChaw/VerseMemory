@@ -10,4 +10,17 @@
     <string name="btnAdd">Add This Scripture</string>
     <string name="btnNew">Add New Scripture</string>
     <string name="btnRetry">Retry Quiz</string>
+    <string name="noVerse">No saved verses.</string>
+    <string name="prompt">Make a guess</string>
+    <string name="btnDelete">Delete</string>
+    <string name="feedbackGood">Well done!</string>
+    <string name="feedbackBad">You can do better...</string>
+    <string name="noVerseInstruction">You can add scriptures by going back and pressing the add scripture button.</string>
+    <string name="quizPrompt">Where is the following scripture from?</string>
+    <string name="goodFeedback1">Congratulations, you guessed </string>
+    <string name="outOf"> verses correctly out of </string>
+    <string name="goodFeedback2">. Well done, click retry to start again.</string>
+    <string name="badFeedback1">You guessed </string>
+    <string name="badFeedback2">. Practice makes perfect. Click retry to start again.</string>
+    <string name=""></string>
 </resources>

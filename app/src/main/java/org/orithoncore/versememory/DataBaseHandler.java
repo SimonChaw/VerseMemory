@@ -91,7 +91,7 @@ public class DataBaseHandler {
     }
 
     public void deleteVerseFromQuiz(int id){
-        try {
+        try {//delete based on id
             db.execSQL("DELETE FROM tblUserVerses WHERE verseID="+id);
         } catch (Exception e) {
             Log.d("dbHandler","getBooks Exception: " + e.getMessage());

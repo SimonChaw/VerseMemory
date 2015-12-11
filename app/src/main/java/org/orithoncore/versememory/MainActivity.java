@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DataBaseBundler dbBundler = new DataBaseBundler();
+        DataBaseBundler dbBundler = new DataBaseBundler();//bundle the database
         dbBundler.bundleDataBase(getPackageName(), getBaseContext(), "bibleDB");
         btnManage = (Button) findViewById(R.id.btnManage);
         btnManage.setOnClickListener(new View.OnClickListener() {
